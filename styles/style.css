@@ -1,0 +1,29 @@
+﻿hr.style { 
+  border: 0; 
+  height: 1px; 
+  background-image: -webkit-linear-gradient(left, lightgray, #8c8b8b, lightgray);
+  background-image: -moz-linear-gradient(left, lightgray, #8c8b8b, lightgray);
+  background-image: -ms-linear-gradient(left, lightgray, #8c8b8b, lightgray);
+  background-image: -o-linear-gradient(left, lightgray, #8c8b8b, lightgray); 
+}
+
+h4 {
+  padding-top: 20px;
+}
+
+/* Navbar light blue */
+.navbar {
+  background-color: #44BCFF;
+  border: none; 
+  border-bottom: 1px gray solid;
+}
+
+body {
+  position: relative;
+  /* background-color: lightgray; */
+  background-color: #0D0D0D;
+}
+
+#contact {
+  margin-top: 20px;
+}

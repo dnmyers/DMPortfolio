@@ -1,0 +1,31 @@
+﻿body {
+    background-color: #000000;
+    color: #FFFFFF;
+    font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+
+.jumbotron {
+    background-color: #333333;
+}
+
+hr.short {
+    border: 0;
+    height: 1px;
+    background-color: #000000;
+    background-image: -moz-linear-gradient(left, #111111, #FFF, #111111);
+    background-image: -o-linear-gradient(left, #111111, #FFF, #111111);
+    background-image: -webkit-radial-gradient(#111111, #FFF, #111111);
+    background-image: -webkit-linear-gradient(left, #111111, #FFF, #111111);
+    background-image: linear-gradient(to right, #111111, #FFF, #111111);
+}
+
+hr.hrSumm {
+    border: 0;
+    height: 1px;
+    background-color: #000000;
+    background-image: -moz-linear-gradient(left, #333, #FFF, #333);
+    background-image: -o-linear-gradient(left, #333, #FFF, #333);
+    background-image: -webkit-radial-gradient(#333, #FFF, #333);
+    background-image: -webkit-linear-gradient(left, #333, #FFF, #333);
+    background-image: linear-gradient(to right, #333, #FFF, #333);
+}
