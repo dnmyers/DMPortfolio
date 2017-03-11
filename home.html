@@ -1,0 +1,228 @@
+﻿<!DOCTYPE html>
+<html>
+<head runat="server">
+    <title>Daniel Myers' Portfolio</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link href="Content/bootstrap.min.css" rel="stylesheet" />
+    <script src="Scripts/bootstrap.min.js"></script>
+    <link href="Content/bootstrap-theme.min.css" rel="stylesheet" />
+    <link href="Content/font-awesome.min.css" rel="stylesheet" />
+    <link href="styles/style.css" rel="stylesheet" />
+    <!--
+    <script src="Scripts/jquery-1.9.1.min.js"></script>
+    <script src="Scripts/bootstrap.min.js"></script>
+    <script src="Scripts/script.js"></script>
+    <script src="https://use.fontawesome.com/4287e8ff71.js"></script>
+    <link href="Content/bootstrap.min.css" rel="stylesheet" />
+    <link href="Content/bootstrap-theme.min.css" rel="stylesheet" />
+    <link href="Content/font-awesome.min.css" rel="stylesheet" />
+    <link href="styles/style.css" rel="stylesheet" />
+        -->
+</head>
+<body>
+    <!-- Beginning of .navbar -->
+    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#">Daniel N Myers</a>
+            </div>
+            <!-- End of .navbar-header -->
+            <div class="collapse navbar-collapse" id="myNavbar">
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="#">Home</a></li>
+                    <li><a href="#about">About</a></li>
+                    <li><a href="#portfolio">Portfolio</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+                <!-- End of navbar ul -->
+            </div>
+            <!-- End of #myNavbar -->
+        </div>
+        <!-- end of .container-fluid -->
+    </nav>
+    <!-- End of <nav> -->
+
+    <!-- Beginning of #homeSection -->
+    <div class="container" id="about">
+        <!-- Beginning of .jumbotron -->
+        <div class="jumbotron text-center">
+            <br />
+            <br />
+            <p>My name is Daniel Myers and I am a Web Developer/Software Developer.</p>
+            <hr class="style" />
+            <h3>Software Developer - Web Developer</h3>
+            <br />
+            <!-- Beginning of .row -->
+            <div class="row">
+                <div class="col-md-12 col-xs-12">
+                    <a href="https://github.com/dnmyers">
+                        <button class="btn btn-primary" style="margin-right: 5px;">
+                            <i class="fa fa-github" aria-hidden="true" style="padding-right: 5px;"></i>
+                            Github
+                        </button>
+                    </a>
+                    <a href="https://www.linkedin.com/in/danielnmyers">
+                        <button class="btn btn-primary">
+                            <i class="fa fa-linkedin" aria-hidden="true" style="padding-right: 5px;"></i>
+                            Linkedin
+                        </button>
+                    </a>
+                    <a href="https://www.freecodecamp.com/dnmyers">
+                        <button class="btn btn-primary" style="margin-left: 5px;">
+                            <i class="fa fa-fire" aria-hidden="true" style="padding-right: 5px;"></i>
+                            freeCodeCamp
+                        </button>
+                    </a>
+                </div>
+            </div>
+            <!-- End of .row -->
+        </div>
+        <!-- End of .jumbotron -->
+    </div>
+    <!-- End of #homeSection -->
+    <hr />
+    <!-- Beginning of portfolio -->
+    <div class="container" id="portfolio">
+        <hr class="style" />
+        <h1 class="text-center">Portfolio</h1>
+        <hr class="style" />
+        <div class="row">
+            <div class="col-sm-4">
+                <h4 class="text-center">Project 1</h4>
+                <img class="img-responsive img-hover" alt="" src="http://www.pacinno.eu/wp-content/uploads/2014/05/placeholder-Copy.png" />
+            </div>
+            <div class="col-sm-4">
+                <h4 class="text-center">Project 2</h4>
+                <img class="img img-responsive img-hover" alt="" src="http://www.pacinno.eu/wp-content/uploads/2014/05/placeholder-Copy.png" />
+            </div>
+            <div class="col-sm-4">
+                <h4 class="text-center">Project 3</h4>
+                <img class="img img-responsive img-hover" alt="" src="http://www.pacinno.eu/wp-content/uploads/2014/05/placeholder-Copy.png" />
+            </div>
+        </div>
+        <!-- End of .row -->
+        <div class="row">
+            <!-- Begin .row -->
+            <div class="col-sm-4">
+                <h4 class="text-center">Project 4</h4>
+                <img class="img img-responsive img-hover" alt="" src="http://www.pacinno.eu/wp-content/uploads/2014/05/placeholder-Copy.png" />
+            </div>
+            <div class="col-sm-4">
+                <h4 class="text-center">Project 5</h4>
+                <img class="img img-responsive img-hover" alt="" src="http://www.pacinno.eu/wp-content/uploads/2014/05/placeholder-Copy.png" />
+            </div>
+            <div class="col-sm-4">
+                <h4 class="text-center">Project 6</h4>
+                <img class="img img-responsive img-hover" alt="" src="http://www.pacinno.eu/wp-content/uploads/2014/05/placeholder-Copy.png" />
+            </div>
+        </div>
+        <!-- End of section #portfolio -->
+        <hr />
+        <!-- Begin section #contact -->
+        <div class="container-fluid text-center" id="contact">
+            <hr class="style" />
+            <h1>Contact</h1>
+            <hr class="style" />
+
+            <!-- Begin contact form -->
+            <div class="row">
+                <!-- Begin Alerts -->
+                <div style="display: none;" class="col-sm-12" id="alertMessages">
+                    <!-- <small><i></i>Alerts</small> -->
+                    <div class="alert alert-success" id="successMessage">
+                        <strong>
+                            <span class="glyphicon glyphicon-send" style="padding-right: 5px;"></span>
+                            Message sent successfully
+                        </strong>
+                    </div>
+                    <div class="alert alert-danger" id="errorMessage">
+                        <strong>
+                            <span class="glyphicon glyphicon-alert" style="padding-right: 5px;"></span>
+                            Error!  Please check input fields.
+                        </strong>
+                    </div>
+                </div>
+                <!-- End Alerts -->
+                <form class="form-horizontal" role="form" action="" method="post">
+                    <div class="well well-sm" style="display: none;">
+                        <strong>
+                            <span class="glyphicon glyphicon-ok form-control-feedback"></span>
+                            Required Field
+                        </strong>
+                    </div>
+
+                    <!-- Name -->
+                    <div class="form-group">
+                        <label class="control-label col-sm-4" for="name">
+                            Name:
+                        </label>
+                        <div class="col-sm-8 input-group">
+                            <input type="text" class="form-control" id="name"
+                                placeholder="Please enter your name" required />
+                        </div>
+                    </div>
+
+                    <!-- Email -->
+                    <div class="form-group">
+                        <label class="control-label col-sm-4" for="email">
+                            Email:
+                        </label>
+                        <div class="col-sm-8 input-group">
+                            <input type="email" class="form-control" id="email" placeholder="Please enter your email address" required />
+                        </div>
+                    </div>
+
+                    <!-- Phone Number -->
+                    <div class="form-group">
+                        <label class="control-label col-sm-4" for="phone">
+                            Phone Number:
+                        </label>
+                        <div class="col-sm-8 input-group">
+                            <input type="text" class="form-control" id="phone" placeholder="Please enter your phone number" required />
+                        </div>
+                    </div>
+
+                    <!-- Message -->
+                    <div class="form-group">
+                        <label class="control-label col-sm-4"       for="message">Message:</label>
+                        <div class="col-sm-8 input-group">
+                            <textarea id="message" class="form-control"                 rows="5" required 
+                               placeholder="Please enter your message                   here"></textarea>
+                        </div>
+                    </div>
+
+                    <!-- Submit -->
+                    <input type="submit" id="submit" value="submit" class="btn btn-info pull-right" />
+                </form>
+            </div>
+            <!-- End contact form -->
+            <hr class="style" />
+            <!-- Begin contact info -->
+            <!--
+            <div class="col-sm-12 container-fluid">
+                <address>
+                    <p class="lead" style="font-size: 12px;">
+                    Daniel N Myers<br />
+                    Phone: 956-466-9924<br />
+                    E-mail: daniel.neil.myers@gmail.com
+                    </p>
+                </address>
+            </div>
+            -->
+            <!-- End contact info -->
+            <!-- <hr style="margin-top: 40px; margin-bottom: 40px;" /> -->
+            <p class="footer">Copyright© Daniel Myers 2016</p>
+        </div>
+
+        <script src="Scripts/jquery-1.9.1.min.js"></script>
+        <script src="Scripts/bootstrap.min.js"></script>
+        <script src="Scripts/script.js"></script>
+</body>
+</html>

@@ -1,0 +1,233 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>WikiViewer</title>
+
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+    <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    <script src="https://use.fontawesome.com/4287e8ff71.js"></script>
+
+    <style>
+        * {
+          box-sizing: border-box;
+        }
+
+        body {
+          background-color: #092B40;
+          color: white;
+        }
+
+        #box {
+  
+        }
+
+        .middle {
+          text-align: center;
+          vertical-align: middle;
+          margin: 15% auto;
+        }
+
+        .top-center {
+          text-align: center;
+          vertical-align: middle;
+          margin: 0 auto;
+        }
+
+        a, a:link, a:visited,a:hover, a:active {
+          color: white;
+          text-decoration: none;
+          width: auto;
+        }
+
+        .btn:hover{
+          color: #666;
+        }
+
+        #divSearch {
+          vertical-align: middle;
+          white-space: nowrap;
+          position: relative;
+          height: 3.5em;
+  
+          transition: all .5s ease;
+        }
+
+        #search {
+          -webkit-appearance: none;
+          font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
+          width: 24px;
+          font-size: 14px;
+          color: #666;
+          line-height: 24px;
+          padding-left: .5em;
+          border: 0;
+          border-radius: 50px;
+          box-shadow: 0 0 0 1px rgba(0,150,200,.5), 
+            inset 0 2px 5px rgba(0,150,200,.3), 
+            0 2px 0 rgba(255,255,255,.6);
+          position: relative;
+          z-index: 5;
+          -webkit-transition: .3s ease;
+          -moz-transition: .3s ease;
+        }
+
+        #search:focus {
+          outline: none;
+          width: 180px;
+        }
+
+        p.s {
+          z-index: 4;
+          position: relative;
+          padding: 5px;
+          line-height: 0;
+          border-radius: 100px;
+          background: #b9ecfe;
+          background-image: 
+            -webkit-linear-gradient(#dbf6ff,#b9ecfe);
+          background-image: 
+            -moz-linear-gradient(#dbf6ff,#b9ecfe);
+          display: inline-block;
+          box-shadow: inset 0 1px 0 rgba(255,255,255,.6), 
+            0 2px 5px rgba(0,100,150,.4);
+        }
+
+        p.s:hover {
+          box-shadow: inset 0 1px 0 rgba(255,255,255,.6), 
+            0 2px 3px 2px rgba(0,100,150,.5);
+        }
+
+        p.s:after {
+          content: '';
+          display: block;
+          position: absolute;
+          width: 5px;
+          height: 20px;
+          background: #b9ecfe;
+          bottom: -10px;
+          right: -3px;
+          border-radius: 0 0 5px 5px;
+          -webkit-transform: rotate(-45deg);
+          -moz-transform: rotate(-45deg);
+          box-shadow: inset 0 -1px 0 rgba(255,255,255,.6), 
+            -2px 2px 2px rgba(0,100,150,.4);
+        }
+
+        p.s:hover:after {
+          box-shadow: inset 0 -1px 0 rgba(255,255,255,.6), 
+            -2px 2px 2px 1px rgba(100,200,255,.5);
+        }
+
+        #instruction{
+          margin-top: .7em;
+        }
+
+        #search-results {
+          margin-top: .7em;
+        }
+
+        .panel-group {
+          color: #000000;
+        }
+
+        .panel-heading a {
+          font-weight: bold;
+          color: #000000;
+          padding: 0;
+          margin: 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+      <div class="middle" id="box">
+        <div class="row" id="empty">
+          <div class="col-md-12">&nbsp;</div>
+        </div>
+    
+        <!-- Random Article div -->
+        <div class="row text-center" id="random-article">
+          <div class="col-md-12">
+            <p><a class="btn" href="https://en.wikipedia.org/wiki/Special:Random"
+                  target="_blank">Click here for a random article</a></p>
+          </div>
+        </div>
+
+        <!-- Search div -->
+        <div class="row" id="divSearch">
+          <div class="col-md-12">
+            <p class="s">
+              <input name="search" id="search" type="search" />
+            </p>
+          </div>
+        </div>
+
+        <!-- Click icon div -->
+        <div class="row" id="instructions">
+          <div class="col-md-12">
+            <p id="inst-p">Click inside the icon to search</p>
+          </div>
+        </div>
+      </div>
+  
+      <!-- Search Results -->
+      <div class="panel-group" id="search-results"></div>
+      <!-- End Search Results -->
+    </div>
+
+    <script>
+        $("#search").keyup(function (event) {
+            if (event.keyCode == 13) {
+                if ($("#search").val()) {
+                    // Set searchterm
+                    var searchterm = $("#search").val();
+
+                    // Make #instr-p blank
+                    $("#instructions").fadeOut("fast");
+
+                    // Move box to top center
+                    $("#box").animate({ margin: "0 auto" }, "fast");
+
+                    // empty #search-results
+                    $("#search-results").empty();
+
+                    // Get JSON
+                    $.getJSON("https://en.wikipedia.org/w/api.php?action=query&" +
+                        "list=search&format=json&srsearch=" + searchterm +
+                        "&srnamespace=0&srwhat=text&titles=Main%Page&callback=?",
+                      function (data) {
+                          // for each result append divs
+                          $.each(data.query.search, function (i, item) {
+                              $("#search-results").append('<div class="panel panel-default">' +
+                                '<div class="panel-heading">' +
+                                '<a href="http://en.wikipedia.org/wiki/' +
+                                encodeURIComponent(item.title) + '" class="btn" target="_blank">' +
+                                item.title + '</a></div><div class="panel-body">' +
+                                item.snippet + '</div></div>'
+                              );
+                          });
+                      });
+
+                    // show #search-results
+                    $("#search-results").show("swing");
+                } else {
+                    // Instruct user to enter something to search for
+                    $("#instructions").fadeIn();
+                    $("#inst-p").html("Please enter something to search for.");
+                    $("#inst-p").addClass("text-danger");
+
+                    // move box to center
+                    $("#box").animate({ margin: "15% auto" }, "fast");
+
+                    $("#search-results").empty();
+                    $("#search-results").fadeOut();
+                }
+            }
+        });
+
+    </script>
+</body>
+</html>

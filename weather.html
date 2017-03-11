@@ -1,0 +1,154 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Weather App</title>
+	<meta charset="utf-8" />
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+
+    <style>
+        body {
+          font-family: 'Baloo Tamma', cursive;
+          background-color: #0F0F0F;
+          color: #FFFFFF;
+        }
+
+        #temperature {
+          cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+  <div class="container">
+      <div class="row">
+        <div class="col-xs-12 text-center">
+          <h1>Weather App</h1>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xs-12 text-center">
+          <h3 id="location"></h3>
+          <h3 id="temperature"></h3>
+          <h3><span id="description"></span>&nbsp;<span><canvas id="icon" width="25" height="25"></canvas></span></h3>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xs-12 text-center">
+          <h6>Click on the temperature to convert it to celsius/fahrenheit.</h6>
+        </div>
+      </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    <script src="https://rawgithub.com/darkskyapp/skycons/master/skycons.js"></script>
+
+    <script>
+        var lat, lon, api_url;
+
+        if ("geolocation" in navigator) {
+            navigator.geolocation.getCurrentPosition(gotLocation);
+
+            function gotLocation(position) {
+                lat = position.coords.latitude;
+                lon = position.coords.longitude;
+                var apikey = '5403c8a68259d8175de85c900c781e88';
+
+                api_url = "https://api.forecast.io/forecast/" + apikey + "/" + lat + "," + lon;
+
+                //AIzaSyBQhqxLVorcrD2DslvZmiJLn2dYjypnVnE
+                var geocodingAPI = "https://maps.googleapis.com/maps/api/geocode/json?latlng=" +
+                    lat + "," + lon + "&key=AIzaSyBQhqxLVorcrD2DslvZmiJLn2dYjypnVnE";
+
+                $.getJSON(geocodingAPI, function (json) {
+                    if (json.status == "OK") {
+                        //Check result 0
+                        var result = json.results[0];
+                        console.log(result);
+                        //look for locality tag and administrative_area_level_1
+                        var city = "";
+                        var state = "";
+                        for (var i = 0, len = result.address_components.length; i < len; i++) {
+                            var ac = result.address_components[i];
+                            if (ac.types.indexOf("administrative_area_level_1") >= 0)
+                                state = ac.short_name;
+                            if (ac.types.indexOf("locality") >= 0)
+                                city = ac.short_name;
+                        }
+                        if (state != '') {
+                            $("#location").text(city + ", " + state);
+                        }
+                    }
+                })
+
+                $.ajax({
+                    url: api_url,
+                    dataType: "jsonp",
+                    method: 'GET',
+                    success: function (data) {
+                        var fahrenheit = data.currently.temperature;
+                        var celsius = (fahrenheit - 32) * .5556;
+                        var tempr = fahrenheit;
+
+                        $("#temperature").html(Math.round(tempr) + "° F");
+
+                        document.getElementById("temperature").onclick = function () { convert() };
+
+                        function convert() {
+                            if (tempr === fahrenheit) {
+                                tempr = celsius;
+                                document.getElementById("temperature").innerHTML = Math.round(tempr) + "° C";
+                            } else {
+                                tempr = fahrenheit;
+                                document.getElementById("temperature").innerHTML = Math.round(tempr) + "° F";
+                            }
+                        };
+
+                        $("#description").text(data.currently.summary);
+
+                        var skycons = new Skycons({
+                            "color": "white"
+                        });
+                        switch (data.currently.icon) {
+                            case "clear-day":
+                                skycons.add(document.getElementById("icon"), Skycons.CLEAR_DAY);
+                                break;
+                            case "clear-night":
+                                skycons.add(document.getElementById("icon"), Skycons.CLEAR_NIGHT);
+                                break;
+                            case "rain":
+                                skycons.add(document.getElementById("icon"), Skycons.RAIN);
+                                break;
+                            case "snow":
+                                skycons.add(document.getElementById("icon"), Skycons.SNOW);
+                                break;
+                            case "sleet":
+                                skycons.add(document.getElementById("icon"), Skycons.SLEET);
+                                break;
+                            case "wind":
+                                skycons.add(document.getElementById("icon"), Skycons.WIND);
+                                break;
+                            case "fog":
+                                skycons.add(document.getElementById("icon"), Skycons.FOG);
+                                break;
+                            case "cloudy":
+                                skycons.add(document.getElementById("icon"), Skycons.CLOUDY);
+                                break;
+                            case "partly-cloudy-day":
+                                skycons.add(document.getElementById("icon"), Skycons.PARTLY_CLOUDY_DAY);
+                                break;
+                            case "partly-cloudy-night":
+                                skycons.add(document.getElementById("icon"), Skycons.PARTLY_CLOUDY_NIGHT);
+                                break;
+                        }
+                        skycons.play();
+
+                    }
+                });
+            }
+        } else {
+            alert("Your browser doesn't support geolocation.  Sorry!");
+        }
+    </script>
+</body>
+</html>

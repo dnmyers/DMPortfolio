@@ -1,0 +1,200 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Twitch Streamers</title>
+
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css?family=Baloo+Bhaina|Roboto" rel="stylesheet">
+
+    <style>
+        * {
+          box-sizing: border-box; 
+        }
+
+        body {
+          background-color: rgb(180, 190, 200);
+          font-family: 'Roboto';
+        }
+
+        img {
+          width: 6em;
+          height: 6em;
+          box-shadow: 1px 1px 1px;
+        }
+
+        a {
+          color: gray; 
+        }
+
+        .well {
+          box-shadow: 2px 3px 5px;
+        }
+
+        h1 {
+          font-weight: bolder;
+          text-shadow: 1px 1px 1px gray;
+        }
+
+        #btnAll, #btnOffline {
+          box-shadow: 2px 2px 1px black;
+        }
+
+        #btnOnline {
+          box-shadow: 2px 2.2px .1px black;
+        }
+
+        div.error {
+          background-color: #FFEEEE;
+        }
+
+        .disabled {
+          color: #771111;
+          font-weight: bold;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="container">
+      <div class="page-header" style="margin-top: 50px;">
+        <h1>TWITCH STREAMERS
+          <small>
+            <div class="btn-group pull-right" id="statusBtns">
+              <button type="button" class="btn btn-primary" id="btnAll">All</button>
+              <button type="button" class="btn btn-primary" id="btnOnline">Online</button>
+              <button type="button" class="btn btn-primary" id="btnOffline">Offline</button>
+            </div>
+          </small>
+        </h1>
+      </div>
+      <div class="streamers-list" id="streamers-list">
+    </div>
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+        <script src="https://ttv-api.s3.amazonaws.com/twitch.min.js"></script>
+    <script>
+        var streamers = ["freecodecamp", "moonmoon_ow", "a_seagull", "imaqtpie", "tsm_dyrus", "xgracefulfatex", "trumpsc", "hsdogdog", "omgitsfirefoxx", "naniheichou", "SuniDey", "Grimmersthereaper", "LIRIK", "comster404", "brunofin"];
+
+        var name;
+        var display_name;
+        var logo;
+        var url;
+        var game;
+
+        populateStreamers();
+
+        function populateStreamers() {
+            for (var i = 0; i < streamers.length; i++) {
+                getData(streamers[i]);
+            }
+        }
+
+        function createActiveEntry(name, display_name, logo, url, game) {
+            $("#streamers-list").append(
+                '<div class="alert well online">' +
+                '<div class="row">' +
+                    '<div class="col-xs-2 col-md-2">' +
+                    '<img src="' + logo + '" class="img-circle logo-image" alt="Logo" />' +
+                    '</div>' +
+                    '<div class="col-xs-5 col-md-5 text-center" style="padding-top: 20px;">' +
+                    '<a href="' + url + '" class="btn display-name" target="_blank" style="font-size: 1.5em;">' + display_name + '</a>' +
+                    '</div>' +
+                    '<div class="col-xs-5 col-md-5 text-center status" style="font-size: 1.5em; padding-top: 25px;">' + game + ' ' +
+                    '<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>' +
+                    '</div>' +
+                '</div>' +
+                '</div>');
+        }
+
+        function createInactiveEntry(name) {
+            $("#streamers-list").append(
+                '<div class="well alert offline">' +
+                '<div class="row">' +
+                    '<div class="col-xs-2 col-md-2">' +
+                    '<img src="https://dummyimage.com/300x300/DDD/000&text=Offline' +
+                        '" class="img-circle" alt="Offline Logo" />' +
+                    '</div>' +
+                    '<div class="col-xs-5 col-md-5 text-center" style="padding-top: 20px;">' +
+                    '<a href="https://www.twitch.tv/' + name + '" class="btn display-name" target="_blank" style="font-size: 1.5em;">' + name + '</a>' +
+                    '</div>' +
+                    '<div class="col-xs-5 col-md-5 text-center status" style="font-size: 1.5em; padding-top: 25px;">' + 'Offline' + ' ' +
+                    '<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>' +
+                    '</div>' +
+                '</div>' +
+                '</div>');
+
+        }
+
+        function createErrorEntry(errorMessage, user) {
+            $("#streamers-list").append(
+                '<div class="alert well alert-danger error">' +
+                '<div class="row">' +
+                    '<div class="col-xs-2 col-md-2">' +
+                    '<img src="https://dummyimage.com/300x300/ccc/000&text=Doesn\'t+Exist' +
+                        '" class="img-circle" alt="Doesn\'t Exist Logo" />' +
+                    '</div>' +
+                    '<div class="col-xs-5 col-md-5 text-center" style="padding-top: 20px;">' +
+                    '<a href="https://www.twitch.tv/' + user + '" class="btn display-name disabled" target="_blank" style="font-size: 1.5em;">' + user + '</a>' +
+                    '</div>' +
+                    '<div class="col-xs-5 col-md-5 text-center status text-danger" style="font-size: 1.5em; padding-top: 25px;">' + errorMessage + ' ' +
+                    '<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>' +
+                    '</div>' +
+                '</div>' +
+                '</div>');
+        }
+
+        function getData(s) {
+            $.ajax({
+                type: 'GET',
+                url: 'https://api.twitch.tv/kraken/streams/' + s,
+                headers: {
+                    'Client-ID': 'p6jfsbyi5f295smlmhol3wqbobd7zdx'
+                },
+                success: function (data) {
+                    if (data.stream == null) {
+                        createInactiveEntry(s);
+                    }
+
+                    if (data.stream != null) {
+                        name = data.stream.channel.name;
+                        display_name = data.stream.channel.display_name;
+                        logo = data.stream.channel.logo;
+                        url = data.stream.channel.url;
+                        game = data.stream.channel.game;
+
+                        createActiveEntry(name, display_name, logo, url, game);
+                    }
+                },
+                error: function (jqhxr, textStatus, errorThrown) {
+                    var errorMessage = jqhxr.responseJSON.message;
+                    var errorSplit = errorMessage.split("'");
+                    var user = errorSplit[1];
+
+                    //console.log(user);
+                    createErrorEntry(errorMessage, user);
+                }
+            });
+        }
+
+        $("#btnAll").click(function () {
+            $("div.online").fadeIn(500, "swing");
+            $("div.offline").fadeIn(500, "swing");
+            $("div.error").fadeIn(500, "swing");
+        });
+
+        $("#btnOnline").click(function () {
+            $("div.online").fadeIn(500, "swing");
+            $("div.offline").fadeOut(500, "swing");
+            $("div.error").fadeOut(500, "swing");
+        });
+
+        $("#btnOffline").click(function () {
+            $("div.online").fadeOut(500, "swing");
+            $("div.offline").fadeIn(500, "swing");
+            $("div.error").fadeOut(500, "swing");
+        });
+    </script>
+</body>
+</html>
